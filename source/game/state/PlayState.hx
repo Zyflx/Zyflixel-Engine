@@ -1269,7 +1269,11 @@ class PlayState extends MusicBeatState
 
 	function endSong():Void
 	{
-		for (i in scriptArray) i.callFunction('songEnd');
+		for (i in scriptArray)
+		{
+			i.callFunction('songEnd');
+			i.destroy();
+		}
 
 		seenCutscene = false;
 		deathCounter = 0;

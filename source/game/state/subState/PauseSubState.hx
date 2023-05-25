@@ -173,6 +173,8 @@ class PauseSubState extends MusicBeatSubstate
 				case "Exit to menu":
 					PlayState.seenCutscene = false;
 					PlayState.deathCounter = 0;
+					for (i in PlayState.scriptArray)
+						i.destroy();
 					if (PlayState.isStoryMode)
 						FlxG.switchState(new StoryMenuState());
 					else

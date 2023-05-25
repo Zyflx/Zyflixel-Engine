@@ -77,6 +77,7 @@ class Script
                 set('Character', game.objects.Character);
                 set('Boyfriend', game.objects.Boyfriend);
                 set('Preferences', game.state.menus.options.PreferencesMenu); // just in case you ever want to check if downscroll if on or somethin in a script
+                set('import', importClass); // for importing classes that are not set by default
             
                 interp.execute(parser.parseString(Paths.getContent(scriptFile)));
             }
@@ -162,6 +163,19 @@ class Script
             }
         }
     }
+    
+    /*
+        Basically Psych's addHaxeLibrary, nothing much to say here
+
+        Couldn't be bothered to make my own so i just took edaks import function
+        (skullbite don't kill me pls)
+        @author SkullBite
+    */
+    function importClass(lib:String, alias = "") {
+        var name = alias != "" ? alias : lib.split(".").pop();
+        var target = Type.resolveClass(lib);
+        set(name, target);
+    }
 
     /*
         Grabs scripts from the specified folder.
@@ -178,6 +192,12 @@ class Script
         var absPath:String = FileSystem.absolutePath(scriptPath);
         var dir:Array<String> = FileSystem.readDirectory(absPath);
         return (dir != null ? dir : []); // Returns an empty array if the folder specified doesn't exist to prevent a crash
+    }
+    
+    public function destroy()
+    {
+        interp = null;
+        parser = null;
     }
 }
 #else

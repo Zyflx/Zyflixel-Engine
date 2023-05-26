@@ -415,7 +415,7 @@ class GameStage extends FlxTypedGroup<FlxBasic>
 				curStage = 'philly';
 			case 'satin-panties' | 'high' | 'milf':
 				curStage = 'limo';
-			case 'coca' | 'eggnog':
+			case 'cocoa' | 'eggnog':
 				curStage = 'mall';
 			case 'winter-horrorland':
 				curStage = 'mallEvil';

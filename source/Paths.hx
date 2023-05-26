@@ -126,6 +126,18 @@ class Paths
 	{
 		return FlxAtlasFrames.fromSpriteSheetPacker(image(key, library), file('images/$key.txt', library));
 	}
+	
+	inline static public function character(folder:String, ?character:String = '')
+	{
+		return getPath('data/characters/$folder/$character');
+	}
+
+	inline static public function getCharacterAtlas(char:String, folder:String, ?isPackerAtlas:Bool = false)
+	{
+		if (isPackerAtlas)
+			return FlxAtlasFrames.fromSpriteSheetPacker(character(folder, char + '.png'), character(folder, char + '.txt'));
+		return FlxAtlasFrames.fromSparrow(character(folder, char + '.png'), character(folder, char + '.xml'));
+	}
 
 	public static function fileExists(key:String)
 	{

@@ -38,7 +38,7 @@ class Script
         parser = new Parser();
         
         var scriptFile:String = scriptName;
-        if (!FileSystem.exists(scriptFile))
+        if (!Paths.fileExists(scriptFile))
             scriptFile = null;
         else
             this.scriptName = scriptName;
@@ -82,7 +82,7 @@ class Script
                 interp.execute(parser.parseString(Paths.getContent(scriptFile)));
             }
         } catch(e:haxe.Exception) {
-            trace('Something went wrong while trying to initialize script $scriptName');
+            trace('Something went wrong while trying to initialize script $scriptName due to: $e on line ${parser.line}');
         }
     }
 

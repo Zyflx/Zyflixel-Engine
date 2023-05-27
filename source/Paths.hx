@@ -4,12 +4,10 @@ import flixel.FlxG;
 import flixel.graphics.frames.FlxAtlasFrames;
 import openfl.utils.AssetType;
 import openfl.utils.Assets as OpenFlAssets;
-
 #if sys
 import sys.io.File;
 import sys.FileSystem;
 #end
-
 import openfl.utils.Assets;
 
 class Paths
@@ -126,7 +124,7 @@ class Paths
 	{
 		return FlxAtlasFrames.fromSpriteSheetPacker(image(key, library), file('images/$key.txt', library));
 	}
-	
+
 	inline static public function character(folder:String, ?character:String = '')
 	{
 		return getPath('data/characters/$folder/$character');
@@ -158,7 +156,7 @@ class Paths
 		#else
 		return Assets.getText(key);
 		#end
-		else
-			return null;
+	else
+		return null;
 	}
 }

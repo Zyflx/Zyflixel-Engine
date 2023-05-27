@@ -7,11 +7,9 @@ import flixel.animation.FlxBaseAnimation;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.util.FlxSort;
 import haxe.io.Path;
-
 #if sys
 import sys.FileSystem;
 #end
-
 import game.state.*;
 import game.data.backend.*;
 import game.objects.stages.background.*;

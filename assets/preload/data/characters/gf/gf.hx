@@ -1,6 +1,6 @@
 function loadCharacter()
 {
-    quickAnimAdd('cheer', 'GF Cheer');
+	quickAnimAdd('cheer', 'GF Cheer');
 	quickAnimAdd('singLEFT', 'GF left note');
 	quickAnimAdd('singRIGHT', 'GF Right Note');
 	quickAnimAdd('singUP', 'GF Up Note');
@@ -12,17 +12,17 @@ function loadCharacter()
 	addByIndices('hairFall', "GF Dancing Beat Hair Landing", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 24, false);
 	addByPrefix('scared', 'GF FEAR', 24, true);
 
-    addOffset('danceLeft', 0, -9);
-    addOffset('danceRight', 0, -9);
-    addOffset('cheer', 0, 0);
-    addOffset('sad', -2, -21);
-    addOffset('scared', -2, -17);
-    addOffset('hairBlow', 45, -8);
-    addOffset('hairFall', 0, -9);
-    addOffset('singLEFT', 0, -19);
-    addOffset('singDOWN', 0, -20);
-    addOffset('singUP', 0, 4);
-    addOffset('singRIGHT', 0, -20);
+	addOffset('danceLeft', 0, -9);
+	addOffset('danceRight', 0, -9);
+	addOffset('cheer', 0, 0);
+	addOffset('sad', -2, -21);
+	addOffset('scared', -2, -17);
+	addOffset('hairBlow', 45, -8);
+	addOffset('hairFall', 0, -9);
+	addOffset('singLEFT', 0, -19);
+	addOffset('singDOWN', 0, -20);
+	addOffset('singUP', 0, 4);
+	addOffset('singRIGHT', 0, -20);
 
-    playAnim('danceRight');
+	playAnim('danceRight');
 }

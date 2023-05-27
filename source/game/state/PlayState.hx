@@ -163,6 +163,7 @@ class PlayState extends MusicBeatState
 		songScore = 0;
 		songMisses = 0;
 		health = 1;
+		defaultCamZoom = 1.05;
 		scriptArray = [];
 	}
 

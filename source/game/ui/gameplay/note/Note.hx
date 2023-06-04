@@ -46,6 +46,7 @@ class Note extends FlxSprite
 	public static var RED_NOTE:Int = 3;
 
 	public static var arrowColors:Array<Float> = [1, 1, 1, 1];
+	public static var colorArray:Array<String> = ['purple', 'blue', 'green', 'red'];
 
 	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false)
 	{
@@ -95,53 +96,29 @@ class Note extends FlxSprite
 		{
 			frames = Paths.getSparrowAtlas('NOTE_assets');
 
-			animation.addByPrefix('greenScroll', 'green instance');
-			animation.addByPrefix('redScroll', 'red instance');
-			animation.addByPrefix('blueScroll', 'blue instance');
-			animation.addByPrefix('purpleScroll', 'purple instance');
-
-			animation.addByPrefix('purpleholdend', 'pruple end hold');
-			animation.addByPrefix('greenholdend', 'green hold end');
-			animation.addByPrefix('redholdend', 'red hold end');
-			animation.addByPrefix('blueholdend', 'blue hold end');
-
-			animation.addByPrefix('purplehold', 'purple hold piece');
-			animation.addByPrefix('greenhold', 'green hold piece');
-			animation.addByPrefix('redhold', 'red hold piece');
-			animation.addByPrefix('bluehold', 'blue hold piece');
+			animation.addByPrefix(colorArray[noteData] + 'Scroll', colorArray[noteData] + ' instance');
+			if (isSustainNote)
+			{
+				animation.addByPrefix(colorArray[noteData] + 'hold', colorArray[noteData] + ' hold piece');
+				if (colorArray[noteData] != 'purple')
+				{
+					animation.addByPrefix(colorArray[noteData] + 'holdend', colorArray[noteData] + ' hold end');
+				}
+				// Have to make a separate animation.addByPrefix() for this because the fuckin anim name is different
+				animation.addByPrefix('purpleholdend', 'pruple end hold');
+			}
 
 			setGraphicSize(Std.int(width * 0.7));
 			updateHitbox();
 			antialiasing = true;
-
-			// colorSwap.colorToReplace = 0xFFF9393F;
-			// colorSwap.newColor = 0xFF00FF00;
-
-			// color = FlxG.random.color();
-			// color.saturation *= 4;
-			// replaceColor(0xFFC1C1C1, FlxColor.RED);
 		}
 
 		colorSwap = new ColorSwap();
 		shader = colorSwap.shader;
 		updateColors();
 
-		switch (noteData)
-		{
-			case 0:
-				x += swagWidth * 0;
-				animation.play('purpleScroll');
-			case 1:
-				x += swagWidth * 1;
-				animation.play('blueScroll');
-			case 2:
-				x += swagWidth * 2;
-				animation.play('greenScroll');
-			case 3:
-				x += swagWidth * 3;
-				animation.play('redScroll');
-		}
-
+		x += swagWidth * noteData;
+		animation.play(colorArray[noteData] + 'Scroll');
 		// trace(prevNote);
 
 		if (isSustainNote && prevNote != null)
@@ -154,39 +131,17 @@ class Note extends FlxSprite
 
 			x += width / 2;
 
-			switch (noteData)
-			{
-				case 2:
-					animation.play('greenholdend');
-				case 3:
-					animation.play('redholdend');
-				case 1:
-					animation.play('blueholdend');
-				case 0:
-					animation.play('purpleholdend');
-			}
+			animation.play(colorArray[noteData] + 'holdend');
 
 			updateHitbox();
 
 			x -= width / 2;
 
-			if (PlayState.isPixel)
-				x += 30;
+			if (PlayState.isPixel) x += 30;
 
 			if (prevNote.isSustainNote)
 			{
-				switch (prevNote.noteData)
-				{
-					case 0:
-						prevNote.animation.play('purplehold');
-					case 1:
-						prevNote.animation.play('bluehold');
-					case 2:
-						prevNote.animation.play('greenhold');
-					case 3:
-						prevNote.animation.play('redhold');
-				}
-
+				prevNote.animation.play(colorArray[prevNote.noteData] + 'hold');
 				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * PlayState.SONG.speed;
 				prevNote.updateHitbox();
 				// prevNote.setGraphicSize();

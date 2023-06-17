@@ -2747,6 +2747,7 @@ class PlayState extends MusicBeatState
 					remove(boyfriend);
 					for (vid in reserveVids)
 						daVideoGroup.add(vid);
+					add(daVideoGroup);
 					add(gf);
 					add(boyfriend);
 					add(dad);
@@ -2761,9 +2762,9 @@ class PlayState extends MusicBeatState
 				}
 
 				reserveVids = [];
-				daVideoGroup.members[vidIndex].playVideo(OpenFlAssets.getPath(Paths.video('${PlayState.SONG.songId}/${vidSource}', type)));
+				daVideoGroup.members[vidIndex].play(Paths.video('${PlayState.SONG.songId}/${vidSource}', type));
 				vid.bitmap.rate = songMultiplier;
-				vid.bitmap.canSkip = false;
+
 				daVideoGroup.members[vidIndex].visible = true;
 
 				vidIndex++;
@@ -2956,7 +2957,7 @@ class PlayState extends MusicBeatState
 				if (currentTimingBpm != Conductor.bpm)
 				{
 					Debug.logTrace('Timing Struct BPM: ${currentTimingBpm} | Current Conductor BPM: ${Conductor.bpm}');
-					Debug.logTrace("BPM CHANGE to " + currentTimingBpm);
+					Debug.logTrace("BPM CHANGE to " + currentTimingBpm + " at time: " + TimingStruct.getTimeFromBeat(curTiming.startBeat));
 					Conductor.changeBPM(currentTimingBpm);
 					Debug.logTrace('Timing Struct BPM: ${currentTimingBpm} | Current Conductor BPM: ${Conductor.bpm}');
 				}
@@ -3229,13 +3230,7 @@ class PlayState extends MusicBeatState
 			// Conductor.songPosition = FlxG.sound.music.time;
 			Conductor.songPosition += FlxG.elapsed * 1000;
 			Conductor.rawPosition += FlxG.elapsed * 1000;
-			#if (FEATURE_MP4VIDEOS && !html5)
-			if (videoHandler != null)
-			{
-				if (!paused && !endingSong)
-					videoHandler.bitmap.resume();
-			}
-			#end
+
 			// sync
 			/*@:privateAccess
 				{
@@ -4459,15 +4454,6 @@ class PlayState extends MusicBeatState
 			}
 		}
 	}
-
-	public var fuckingVolume:Float = 1;
-	public var useVideo = false;
-	public var playingDathing = false;
-	public var videoSprite:FlxSprite;
-
-	#if (FEATURE_MP4VIDEOS && !html5)
-	var videoHandler:VideoSprite;
-	#end
 
 	// This function is broken until I figure out what's happening.
 
@@ -5821,13 +5807,13 @@ class PlayState extends MusicBeatState
 
 			#if (FEATURE_MP4VIDEOS && !html5)
 			var daVid:VideoHandler = new VideoHandler();
-			daVid.playVideo(fileName);
-			(daVid).finishCallback = function()
+			daVid.onEndReached.add(function()
 			{
 				remove(bg);
+				daVid.dispose();
 				startAndEnd();
-				daVid = null;
-			};
+			});
+			daVid.play(fileName);
 			#else
 			var netStream = new FlxVideo();
 			add(netStream);

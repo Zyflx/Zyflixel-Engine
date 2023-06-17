@@ -54,8 +54,8 @@ import flixel.FlxSubState;
 import funkin._backend.utils.Discord.DiscordClient;
 #end
 #if (FEATURE_MP4VIDEOS && !html5)
-import hxcodec.flixel.VideoHandler;
-import hxcodec.flixel.VideoSprite;
+import hxcodec.flixel.FlxVideo as VideoHandler;
+import hxcodec.flixel.FlxVideoSprite as VideoSprite;
 #else
 import funkin._backend.media.webm.FlxVideo;
 #end

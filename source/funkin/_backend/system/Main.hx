@@ -132,8 +132,7 @@ class Main extends Sprite
 
 		FlxG.signals.postStateSwitch.add(function()
 		{
-			cpp.vm.Gc.run(false);
-			cpp.vm.Gc.compact();
+			Paths.runGC();
 		});
 
 		#if !mobile

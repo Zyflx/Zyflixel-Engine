@@ -297,6 +297,8 @@ class NoteSpr extends FlxSprite
 		if (noteCharterObject != null)
 			noteCharterObject.destroy();
 
+		_def = null;
+
 		super.destroy();
 	}
 

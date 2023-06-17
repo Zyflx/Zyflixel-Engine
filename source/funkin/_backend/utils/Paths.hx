@@ -468,7 +468,15 @@ class Paths
 	}
 
 	public static function runGC()
+	{
+		#if cpp
+		cpp.vm.Gc.run(false);
+
+		cpp.vm.Gc.compact();
+		#else
 		System.gc();
+		#end
+	}
 
 	public static var localTrackedAssets:Array<String> = [];
 

@@ -57,6 +57,10 @@ class NoteDef
 
 	public var noteStyle:String = 'default';
 
+	public var spawnTime:Float = 1500;
+
+	public var onScreen(get, never):Bool;
+
 	public function new(strumTime:Float, noteData:Int, ?prevNote:NoteDef, ?sustainNote:Bool = false, ?inCharter:Bool = false, ?bet:Float = 0,
 			?noteType:String = 'normal', ?speedMultiplier:Float = 1.0, ?noteStyle:String = 'default')
 	{
@@ -103,6 +107,8 @@ class NoteDef
 
 		this.noteData = noteData;
 
+		spawnTime /= speedMultiplier;
+
 		// YOOO WTF IT WORKED???!!!
 		if (PlayStateChangeables.mirrorMode)
 		{
@@ -111,6 +117,21 @@ class NoteDef
 		}
 
 		preloadNoteFrames();
+	}
+
+	function get_onScreen():Bool
+	{
+		if (this == null)
+			return false;
+
+		var leSongSpeed:Float = FlxMath.roundDecimal(PlayState.instance.scrollSpeed == 1 ? PlayState.SONG.speed : PlayState.instance.scrollSpeed, 2);
+
+		var leSpawnTime = spawnTime;
+		if (leSongSpeed < 1)
+			leSpawnTime /= leSongSpeed;
+
+		return strumTime - Conductor.songPosition < leSpawnTime
+			&& Conductor.songPosition < Ratings.timingWindows[0].timingWindow + strumTime;
 	}
 
 	function preloadNoteFrames()

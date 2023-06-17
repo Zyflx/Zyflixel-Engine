@@ -18,6 +18,8 @@ class ExtendedVector<T>
 
 	var startIndex:Int = 0;
 
+	public var length(get, never):Int;
+
 	public function new(length:Int = 0)
 	{
 		vector = new Vector(length);
@@ -25,7 +27,7 @@ class ExtendedVector<T>
 		curIndex = 0;
 	}
 
-	inline public function getLength():Int
+	inline public function get_length():Int
 	{
 		return vector.length - startIndex;
 	}
@@ -40,9 +42,18 @@ class ExtendedVector<T>
 		return vector.sort(f);
 	}
 
+	public function filter(f:T->Bool):Array<T>
+	{
+		return [
+			for (i in 0...length)
+				if (f(vector[i + startIndex])) vector[i + startIndex]
+
+		];
+	}
+
 	public function indexOf(element:T):Int
 	{
-		for (i in 0...getLength())
+		for (i in 0...length)
 		{
 			var coolIndex = i + startIndex;
 			if (vector[coolIndex] == element)

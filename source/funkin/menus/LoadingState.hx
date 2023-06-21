@@ -116,6 +116,8 @@ class LoadingState extends MusicBeatState
 		#else
 		onLoad();
 		#end
+
+		super.create();
 	}
 
 	function checkLoadSong(path:String)

@@ -347,6 +347,8 @@ class CoolText extends FlxBitmapText
 		x = xPos;
 		y = yPos;
 		scale.set(sizeX / (font.size - 2), sizeY / (font.size - 2));
+		text = '';
+
 		updateHitbox();
 	}
 

@@ -12,6 +12,8 @@ import sys.FileSystem;
 
 import openfl.utils.Assets;
 
+using StringTools;
+
 class Paths
 {
 	inline public static var SOUND_EXT = #if web "mp3" #else "ogg" #end;
@@ -112,6 +114,11 @@ class Paths
 		return getPath('images/$key.png', IMAGE, library);
 	}
 
+	/*inline static public function stageImage(week:String ,key:String, ?subfolder:String = '')
+	{
+		return 'assets/$week/$subfolder' + key;
+	}*/
+
 	inline static public function font(key:String)
 	{
 		return 'assets/fonts/$key';
@@ -126,7 +133,7 @@ class Paths
 	{
 		return FlxAtlasFrames.fromSpriteSheetPacker(image(key, library), file('images/$key.txt', library));
 	}
-	
+
 	inline static public function character(folder:String, ?character:String = '')
 	{
 		return getPath('data/characters/$folder/$character');
@@ -160,5 +167,99 @@ class Paths
 		#end
 		else
 			return null;
+	}
+
+	public static function getSongs()
+	{
+		var songs = OpenFlAssets.list(AssetType.MUSIC);
+
+		var songNames = [];
+		
+		for (song in songs)
+		{
+			var songSplit = song.split('/');
+			var file = songSplit[2];
+			songNames.push(file);
+		}
+
+		return songNames;
+	}
+
+	public static function getSounds()
+	{
+		var sounds = OpenFlAssets.list(AssetType.SOUND);
+
+		var soundFiles = [];
+		
+		for (sound in sounds)
+		{
+			for (i in FileSystem.readDirectory('assets/sounds/'))
+			{
+				if (i.endsWith('.$SOUND_EXT'))
+				{
+					soundFiles.push(i);
+				}
+			}
+
+			for (i in FileSystem.readDirectory('assets/shared/sounds/'))
+			{
+				if (i.endsWith('.$SOUND_EXT'))
+				{
+					soundFiles.push(i);
+				}
+			}
+		}
+
+		return soundFiles;
+	}
+		
+	public static function getImages()
+	{
+		var imgs = OpenFlAssets.list(AssetType.IMAGE);
+
+		var imgFiles = [];
+
+		for (img in imgs)
+		{
+			// var split = img.split('/');
+			// var img = split[split.length - 1];
+			imgFiles.push(img);
+		}
+
+		return imgFiles;
+	}
+
+	public static function stageImage(week:String, key:String)
+	{
+		return getPreloadPath('$week/$key');
+	}
+
+	public static function getCharImages()
+	{
+		var charList = OpenFlAssets.list(AssetType.IMAGE);
+
+		var charNames = [];
+
+		for (char in charList)
+		{
+			if (char.contains('data/characters/'))
+			{
+				var split = char.split('/');
+				var name = split[3];
+				charNames.push(name);
+			}
+		}
+
+		var imgFiles = [];
+
+		for (char in charNames)
+		{
+			if (fileExists(character(char, char + '.png')))
+			{
+				imgFiles.push(char);
+			}
+		}
+
+		return imgFiles;
 	}
 }

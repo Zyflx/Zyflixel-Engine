@@ -171,18 +171,7 @@ class Character extends FlxSprite
 	{
 		animation.addByPrefix(name, prefix, 24, false);
 	}
-
-	private function loadOffsetFile(offsetCharacter:String)
-	{
-		var daFile:Array<String> = CoolUtil.coolTextFile(Paths.file("images/characters/" + offsetCharacter + "Offsets.txt"));
-
-		for (i in daFile)
-		{
-			var splitWords:Array<String> = i.split(" ");
-			addOffset(splitWords[0], Std.parseInt(splitWords[1]), Std.parseInt(splitWords[2]));
-		}
-	}
-
+	
 	override function update(elapsed:Float)
 	{
 		if (!curCharacter.startsWith('bf'))
